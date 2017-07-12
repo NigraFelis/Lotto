@@ -19,33 +19,24 @@ public class LottoServiceImpl implements LottoService{
 	@Override
 	public int getCount() {
 		//해당 로또수만큼 출력
-		return 0;
+		return count;
 	}
 	
 	@Override
 	public void setLottos(LottoBean bean) {
-		//로또 만들기
+		
 		setcount(bean);
-		
 		lottos = new int[count][6];
-		
-		int i=0;
 		for(count=0; count<lottos.length; count++){
-			while(true){
-				int num = bean.getNumber();
-				if(isDuplication(count, num)){
-					continue; //반복문
+			for(int j=0; j<lottos[count].length; j++){
+				int num=bean.getNumber();
+				if(!isDuplication(count, num)){
+					lottos[count][j]=num;
+				}else{
+					j--;
 				}
-				lottos[count][i]=num;
-				
-				i++;
-				
-				if(i==lottos[count].length){
-					sort(lottos[count]);
-					i=0;
-					break;
-				}	
 			}
+			sort(lottos[count]);
 		}
 	}
 
@@ -61,9 +52,9 @@ public class LottoServiceImpl implements LottoService{
 		boolean flag = false;
 		
 		for(int i=0; i<lottos[count].length; i++){
-			if(lottos[count][i]==num){
+			if(num==lottos[count][i]){
 				flag = true;
-				break;
+				
 			}
 		}
 		return flag;
